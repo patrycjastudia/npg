@@ -37,3 +37,4 @@ while (b != 0)
   p = r_tmp; q = s_tmp;
 
 // Wówczas NWD(a0, b0) = p*a0 + q*b0
+///kljgl
