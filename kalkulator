@@ -1,0 +1,85 @@
+/* Program kalkulator, wykonujący podstawowe obliczenia matematyczne *
+/
+/* Program kalk1.c *
+/
+#include 
+<stdio.h>
+#include <conio.h>
+int main() 
+/* funkcja glowna *
+/
+{
+int a,b; 
+/* deklaracja zmiennych całkowitych a i b *
+/
+int suma,roznica,iloczyn;
+float iloraz; 
+/* deklaracja zmiennej rzeczywistej *
+/
+clrscr();
+/* kasowanie ekranu *
+/
+printf("Prosty kalkulator
+\
+n");
+printf("
+\
+nPodaj liczbe a: ")
+;
+scanf("%d",&a);
+/* wczytanie liczby a *
+/
+printf("Podaj liczbe b: ")
+;
+scanf("%d",&b); 
+/* wczytanie liczby b *
+/
+/* obliczenia *
+/
+suma=a+b;
+roznica=a
+-
+b
+;
+iloczyn=a*b
+;
+iloraz=(float)a/(float)b; 
+/* 
+operator rzutowania w dzieleniu *
+/
+/* Wydruk wynikow *
+/
+printf("
+\
+nWyniki dzialan:
+\
+n");
+printf("
+\
+nSuma:
+%d
+",suma)
+;
+printf("
+\
+nRoznica: %d
+",roznica)
+;
+printf("
+\
+nIloczyn: %d
+",iloczyn)
+;
+printf("
+\
+nIloraz:
+%f
+",iloraz)
+;
+getch(); 
+/* czeka na naciśniec
+ie klawisza *
+/
+return 0 
+;
+}
