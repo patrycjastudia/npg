@@ -1,0 +1,30 @@
+#include <stdio.h>
+
+int main(void)
+{
+    int cyfry[1000] = { 1 };
+    int n, p, w, liczba;
+    printf("Podaj maksymalna podstawe silni\n");
+    scanf("%d", &liczba);
+    printf("<table border=\"1\"><tr><th align=\"right\">n</th>"
+           "<th align=\"left\">n!</th></tr>\n");
+    for (n=1; n<=liczba; n++) {
+        printf("<tr><td align=\"right\">%2d</td><td>",n-1);
+
+        for (p=999; !cyfry[p]; p--)
+            /* NIC */;
+        while (p>=0)
+            printf("%c",'0'+cyfry[p--]);
+
+       
+        printf("</td></tr>\n");
+
+        for (w=0, p=0; p<1000; p++) {
+            w += n*cyfry[p];
+            cyfry[p] = w % 10;
+            w /= 10;
+        }
+    }
+    printf("</table>");
+    return 0;
+} 
