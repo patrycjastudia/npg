@@ -1,0 +1,2 @@
+# npg
+repozytorium na zajeciach
