@@ -1,0 +1,59 @@
+char* rozklad::wez_kod() {
+    static char kod[13];
+    kod[0]=0;
+    for (int n=0;n<=3;n++)
+        if (n<=poziom)
+            sprintf(kod+strlen(kod),"-%d",wart[n]);
+        else strcat(kod,"-x");
+    return kod+1;
+}
+
+void rozklad::dopisz_HTML(int il_prob) {
+    double p=prawdopodobienstwo(il_prob)*100;
+    if (p<0.01)
+        return;
+    int poz=poziom==3 ? 2 : poziom;
+
+    printf(
+        "\t\t<tr>\n"
+    );
+    if (poz>0)
+        if (poz>1)
+             printf("\t\t\t<td colspan=\"%d\" width=\"%d%%\">&nbsp;</td>\n",
+                poz,poz*10);
+        else printf("\t\t\t<td width=\"10%%\">&nbsp;</td>\n");
+    if (poz<2)
+         printf("\t\t\t<td colspan=\"%d\" width=\"%d%%\" align=\"left\">%s</td>\n",
+            3-poz,(3-poz)*10,wez_kod());
+    else printf("\t\t\t<td width=\"10%%\" align=\"left\">%s</td>\n",wez_kod());
+
+    int ip=int(p*2+0.5);
+    printf(
+        "\t\t\t<td align=\"center\">%2.2f%%</td>\n"
+        "\t\t\t<td align=\"left\"><table border=\"0\" width=\"100%%\"><tr>\n"
+        "\t\t\t\t<td width=\"%d%%\" bgcolor=\"#FF0000\">&nbsp;</td>\n"
+        "\t\t\t\t<td>&nbsp;</td>\n"
+        "\t\t\t</tr></table></td>\n"
+        "\t\t</tr>\n",
+        p,
+        ip ? ip : 1
+    );
+}
+
+rozklad::~rozklad() {
+}
+
+
+//Klasa wezel
+wezel::wezel(int *wart,int poziom):
+    rozklad(wart,poziom) {
+    int suma=0;
+    for (int k=0;k<=poziom;k++)
+        suma+=wart[k];
+    for (int n=0;n<=13;n++) {
+        wart[poziom+1]=n;
+        dzieci[n]=poziom==2
+            ? suma+n==13 ? new rozklad(wart,poziom+1) : NULL
+            : suma+n<=13 ? (rozklad*)new wezel(wart,poziom+1) : NULL;
+    }
+}
