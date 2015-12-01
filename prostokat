@@ -1,0 +1,44 @@
+#include <conio.h
+>
+float PoleProstokata(float bok1, float bok2); /* zapowiedz funkcji *
+/
+/* funkcja glowna *
+/
+int main(void)
+{
+float a, b, p
+;
+puts("Obliczenie pola prostokata o bokach a i b ")
+;
+pr
+intf("Podaj a i b oddzielone spacja: ")
+;
+scanf("%f %f",&a, &b)
+;
+/* wywolanie funkcji na obliczenie pola *
+/
+p= 
+PoleProstokata(a, b)
+;
+printf("Pole prostokat o bokach %f i %f = %f ", a, b, p)
+;
+getch()
+;
+return 0
+;
+}
+float 
+PoleProstokata(f
+loat bok1, float bok2
+)
+{
+// w tym miejscu bok1 jest równy a
+,
+// natomiast bok2 jest równy b
+float wynik
+;
+wynik = bok1 * bok2
+;
+return wynik
+;
+}
