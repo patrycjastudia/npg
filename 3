@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+//Liczba prób w metodzie Monte Carlo
+const IL_PROB=1000000;
+
+//Klasa opisująca rozkład ręki
+class rozklad {
+protected:
+    int wart[4];
+    int poziom;
+    int licznik;
+public:
+    rozklad(int *wart,int poziom);
+    virtual void inkrementuj(int *wart);
+    double prawdopodobienstwo(int il_prob);
+    char* wez_kod();
+    virtual void dopisz_HTML(int il_prob);
+    virtual ~rozklad();
+};
+
+//Klasa opisująca węzeł drzewa (np. rozkład 5-4-x-x)
+class wezel: public rozklad {
+    rozklad *dzieci[14];
+public:
+    wezel(int *wart,int poziom);
+    virtual void inkrementuj(int *wart);
+    virtual void dopisz_HTML(int il_prob);
+    virtual ~wezel();
+};
+
+
+//Klasa rozklad
+rozklad::rozklad(int *wart,int poziom):
+    poziom(poziom),
+    licznik(0) {
+    memcpy(this->wart,wart,sizeof(this->wart));
+}
+
+void rozklad::inkrementuj(int *) {
+    licznik++;
+}
+
+double rozklad::prawdopodobienstwo(int il_prob) {
+    return double(licznik)/il_prob;
+}
