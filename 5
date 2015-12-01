@@ -1,0 +1,45 @@
+void wezel::inkrementuj(int *wart) {
+    rozklad::inkrementuj(wart);
+    dzieci[wart[poziom+1]]->inkrementuj(wart);
+}
+
+void wezel::dopisz_HTML(int il_prob) {
+    int il_dzieci=0;
+    for (int n=0;n<=13;n++)
+        if (dzieci[n]!=NULL && dzieci[n]->prawdopodobienstwo(il_prob)>0)
+            il_dzieci++;
+    if (il_dzieci!=1)
+        rozklad::dopisz_HTML(il_prob);
+
+    for (int n=0;n<=13;n++)
+        if (dzieci[n]!=NULL)
+            dzieci[n]->dopisz_HTML(il_prob);
+}
+
+wezel::~wezel() {
+    for (int n=0;n<=13;n++)
+        if (dzieci[n]!=NULL)
+            delete dzieci[n];
+}
+
+
+//Dla qsort
+int por(const void *a,const void *b) {
+     return *(const int *)b-*(const int *)a;
+}
+
+wezel *drzewa[14];
+
+//Wypisywanie na ekran tabelki punktów Miltona
+void pisz_miltona(char *tekst,int *MP,int min,int max,int il_prob) {
+    printf(
+            "<div align=\"left\">\n"
+            "\t<table width=\"100%%\" border=\"1\">\n"
+            "\t\t<tr>\n"
+            "\t\t\t<th width=\"10%%\" align=\"center\">Ilość punktów Miltona %s</th>\n"
+            "\t\t\t<th width=\"25%%\" align=\"center\">Prawdopodobieństwo zdobycia dokładnie takiej liczby punktów</th>\n"
+            "\t\t\t<th width=\"20%%\" align=\"center\">Wykres prawdopodobieństwa</th>\n"
+            "\t\t\t<th width=\"25%%\" align=\"center\">Prawdopodobieństwo zdobycia co najmniej takiej liczby punktów</th>\n"
+            "\t\t\t<th width=\"20%%\" align=\"center\">Wykres prawdopodobieństwa</th>\n"
+            "\t\t</tr>\n",tekst
+    );
