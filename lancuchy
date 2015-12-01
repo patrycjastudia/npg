@@ -1,0 +1,51 @@
+/* Przykład operacji na słowach i łańcuchach: */
+/* znaki1.c *
+/
+#include <stdio.h>
+#include <conio.h
+>
+#include <string.h
+>
+main (void)
+{
+char
+znak1,znak2,znak3; //deklaracja znaków
+char
+*slowo1; // *slowo2;
+char slowo2[20]
+;
+clrscr();
+// czyszczenie ekran
+u
+znak1='a';
+znak2=102; // znak w postaci kodu dziesiętnego ASCII 
+–
+litera 
+f
+slowo1="Imie"; // wpisujemy własne imi
+ę
+printf("
+Podaj znak3: "); scanf("%c",&znak3); // podajemy jakiś zna
+k
+printf("
+\
+nPodaj slowo2: "); scanf("%s",slowo2); // wpisujemy słow
+o
+printf("
+\
+nZmienne zawieraja znaki: ")
+;
+printf("znak1 (a), znak2 (102), znak3 (wprowadzony): %c %c %c
+",znak1,znak2,znak
+3)
+;
+printf("
+\
+noraz slowa: ")
+;
+printf("slowo1, slowo2: %s %s
+",slowo1, slowo2)
+;
+getch();
+return 0 ;
+}
