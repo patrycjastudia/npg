@@ -1,0 +1,179 @@
+program edytor_graficzny;
+uses Crt,graph;
+var karta,tryb,n:integer;
+    ch:char;
+    a,b,kol,y,x:integer;
+    tx:string;
+
+procedure wyswietl;       {procedura wyswietlania napisow na ekranie}
+  begin
+    outtextxy(a,b,tx);
+  end;
+
+procedure wizytowka;     {procedura wyswietlenia wizytowki}
+  begin
+      setcolor(green);      {kolor napisu}
+      a:=20; b:=20;          {ustalenie pozycji wyswietlenia wizytowki}
+      tx:='Program wykonal:';
+      wyswietl;                {odwolanie do procedury wyswietlenia napisow}
+      b:=b+12; tx:='MARCIN ***';
+      wyswietl;
+  end;
+
+procedure text;      {procedura wyswietlajaca napisy poprzez odwolanie}
+ begin               {sie do procedury 'wyswietl' }
+   setcolor(yellow);
+   a:=getmaxx div 3;
+   b:=30;
+   tx:='EDYTOR GRAFICZNY';
+   wyswietl;
+   setcolor(lightgreen); a:=getmaxx-150; b:=100; tx:='OBJASNIENIA:';
+   wyswietl;
+   setcolor(white); a:=getmaxx-185; b:=140; tx:='ESC - zakoncz.';
+   wyswietl;
+   b:=b+30;  tx:='Rysuj kursorami:';
+   wyswietl;
+   b:=b+15;  tx:='GORA, DOL, PRAWO, LEWO';
+   wyswietl;
+   b:=b+30;  tx:='Czyszczenie ekranu:';
+   wyswietl;
+   b:=b+15;  tx:='BACKSPACE';
+   wyswietl;
+   b:=b+30;  tx:='Podniesienie pisaka:';
+   wyswietl;
+   b:=b+15;  tx:='SPACJA';
+   wyswietl;
+   b:=b+35; setcolor(lightgreen); tx:='ZMIANA KOLORU:';
+   wyswietl;
+   b:=b+30; setcolor(lightred); tx:='1 - CZERWONY';
+   WYSWIETL;
+   b:=b+15; setcolor(lightgray); tx:='2 - SZARY';
+   wyswietl;
+   b:=b+15; setcolor(lightgreen); tx:='3 - ZIELONY';
+   wyswietl;
+   b:=b+15; setcolor(white);  tx:='4 - BIALY';
+   wyswietl;
+   b:=b+15; setcolor(lightcyan);  tx:='5 - TURKUSOWY';
+   wyswietl;
+   b:=b+15; setcolor(brown); tx:='6 - BRAZOWY';
+   wyswietl;
+   b:=b+15; setcolor(yellow); tx:='7 - ZOLTY';
+   wyswietl;
+   b:=b+15; setcolor(magenta); tx:='8 - KARMAZYNOWY';
+   wyswietl;
+ end;
+
+procedure sound1;       {procedura generujaca dzwiek}
+  begin
+    sound(300);
+    delay(150);
+    nosound;
+  end;
+
+
+procedure granica;       {procedura 'spawdzajaca' czy pisak nie jest poza }
+  begin                  {obszarem rysowania}
+    if x>getmaxx-200 then
+      begin
+        x:=5;
+        sound1;           {wywolanie sygnalu dzwiekowego}
+      end;
+    if x<5 then
+      begin
+        x:=getmaxx-200;
+        sound1;
+      end;
+    if y>getmaxy-5 then
+      begin
+        y:=100;
+        sound1;
+      end;
+    if y<100 then
+      begin
+        y:=getmaxy-5;
+        sound1;
+      end;
+  end;
+
+procedure pole;         {procedura rysuj prostokad-pokazuje wizualnie}
+  begin                 {granice pola do rysowania}
+    setcolor(lightred);
+    rectangle(4,99,getmaxx-199,getmaxy-4);
+  end;
+
+procedure czysc;         {procedura czyszczaca ekran}
+  begin
+    clearviewport;
+  end;
+
+procedure przenies;      {procedura 'podniesienia' pisaka}
+  begin
+    repeat
+      putpixel(x,y,yellow);  {wyswietl punkt o kolorze zoltym}
+      Ch:=ReadKey;
+
+      case Ch of
+      #72:begin
+            dec(y);   {gora}
+            putpixel(x,y+1,getbkcolor);
+          end;
+      #75:begin
+            dec(x);   {lewo}
+            putpixel(x+1,y,getbkcolor);
+           end;
+      #77:begin
+            inc(x);   {prawo}
+            putpixel(x-1,y,getbkcolor);
+          end;
+      #80:begin
+            inc(y);    {dol}
+            putpixel(x,y-1,getbkcolor);
+          end;
+      end;
+      granica;
+      until (ch=#32) or (ch=#27);
+  end;
+
+begin   {PROGRAM}
+  karta:=detect; initGraph(karta,tryb,'');     {detekcja karty graficznej}
+
+  kol:=white;           {ustalenie poczatkowe koloru pisaka}
+  setbkcolor(blue);     {ustalenie koloru tla}
+  pole;                 {wykonanie procedury 'pole'}
+  wizytowka;            {wykonanie procedury 'wizytowka'}
+  text;                 {wykonanie procedury 'text'}
+
+  x:=getmaxx div 2-90;   {ustalenie poczatkowe pozycji pisaka}
+  y:=getmaxy div 2+50;
+
+  repeat                        {petla repeat}
+    putpixel(x,y,kol);          {wyswietl punkt}
+    Ch:=ReadKey;
+    case Ch of
+      #72: dec(y);   {gora}
+      #75: dec(x);   {lewo}
+      #77: inc(x);   {prawo}
+      #80: inc(y);   {dol}
+      '1': kol:=lightred;       {zmiana koloru pisaka}
+      '2': kol:=lightgray;
+      '3': kol:=lightgreen;
+      '4': kol:=white;
+      '5': kol:=lightcyan;
+      '6': kol:=brown;
+      '7': kol:=yellow;
+      '8': kol:=magenta;
+
+      #8:begin      {backspace-odwolanie do procedur:}
+           czysc;   { czyszczenie ekranu }
+           text;    { wyswietlenie napisow}
+           pole;    { wyswietlenie granicy pola}
+        end;
+      #32: przenies; {spacja-odwolanie do procedury 'przenies'}
+    end;
+   granica;          {odwolanie do procedury 'granica'}
+
+  until Ch=#27;      {ESC-zakonczenie petli- wyjscie z programu}
+
+
+closegraph;
+end. {program} 
