@@ -1,0 +1,79 @@
+program data;
+
+{potrzebuje pomocy dopiero zaczyna m z programowaniem
+musze napisac program ktory po wpisaniu numeru miesiąca i dnia w miesiącu wyświetli datę zprzed dwóch dni
+luty ma zawsze 28 dni
+AAla kalendarz
+program musi opierac sie na procedurach}
+
+type
+   kalendarz = record
+            dd,mm : integer;
+            end;
+
+var
+   kal : kalendarz;
+
+Function dzien(dz : integer): integer;   
+var
+   ok : boolean;
+   k,d : integer;
+begin
+   ok := true;
+   if (dz = 2) then k := 28 else
+      if (dz = 4) or (dz = 6) or (dz = 9) or (dz = 11) then k := 30
+      else k := 31;
+   Repeat
+   Write('Dzień: ');
+   Read(d);
+   if (d < 1) or (d > k) then ok := false else ok := true;
+   Until ok = true;
+   dzien := d;
+end;
+
+Procedure wczytaj(var  kal : kalendarz);
+var
+   ok : boolean;
+begin
+   ok := true;
+   Writeln('Podaj datę');
+   with kal do
+   Repeat
+   Write('Miesiąc: ');
+   Read(mm);
+   if (mm < 1) or (mm > 12) then ok := false else ok := true;
+   Until ok = true;
+   kal.dd := dzien(kal.mm);
+end;
+
+Procedure cofnij(var kal : kalendarz);
+var
+   tmp,max : integer;
+begin
+   if kal.dd - 2 > 0 then
+   kal.dd := kal.dd - 2 else
+   begin
+      if kal.mm - 1 < 1 then
+      begin
+      kal.mm := 12;
+      tmp := kal.dd - 2;
+      end
+      else
+         begin
+         kal.mm := kal.mm - 1;
+         tmp := kal.dd - 2;
+         end;
+   end;
+   if kal.mm = 2 then max := 28 else
+      if (kal.mm = 4) or (kal.mm = 6) or (kal.mm = 9) or (kal.mm = 11) then
+      max := 30 else max := 31;
+   if tmp = 0 then kal.dd := max else if tmp = -1 then kal.dd := max - 1;
+end;
+   
+
+begin
+   Wczytaj(kal);
+   Writeln('Dzień: ',kal.dd,' Miesiąc: ',kal.mm);
+   Cofnij(kal);
+   Writeln('Dzień: ',kal.dd,' Miesiąc: ',kal.mm);
+end.
